@@ -4,6 +4,7 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 public class Ledger {
@@ -81,7 +82,10 @@ public class Ledger {
             LocalDate depositDay = LocalDate.now();
             LocalTime depositTime = LocalTime.now();
 
-            String deposit = String.format("\n%s|%s|%s|%s|%.2f",depositDay.toString(), depositTime.toString(), desc, vendor, amount);
+            DateTimeFormatter fmt = DateTimeFormatter.ofPattern("HH:mm:ss");
+            String depositTimeFormatted = depositTime.format(fmt);
+
+            String deposit = String.format("\n%s|%s|%s|%s|%.2f",depositDay.toString(), depositTimeFormatted, desc, vendor, amount);
             bufWriter.write(deposit);
             bufWriter.close();
 
