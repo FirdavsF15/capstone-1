@@ -5,10 +5,13 @@ import java.io.FileWriter;
 import java.util.Scanner;
 
 public class Ledger {
+
+    public static Scanner scanner = new Scanner(System.in);
+
     public static void main(String[] args) {
 
         boolean ultimateExit = false;
-        Scanner scanner = new Scanner(System.in);
+
 
 
         String homePageInput;
@@ -64,6 +67,16 @@ public class Ledger {
 
             String desc, vendor;
             double amount;
+
+            System.out.println("Adding deposit, please enter information below");
+            System.out.print("Enter the deposit description: ");
+            desc = scanner.nextLine();
+            System.out.print("Enter the deposit vendor: ");
+            vendor = scanner.nextLine();
+            System.out.print("Enter the deposit amount: ");
+            amount = Double.parseDouble(scanner.nextLine());
+
+
 
         }catch(Exception e){
             System.out.println("There was an oopsie");
