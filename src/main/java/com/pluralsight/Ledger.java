@@ -2,6 +2,8 @@ package com.pluralsight;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Scanner;
 
 public class Ledger {
@@ -62,21 +64,26 @@ public class Ledger {
 
     public static void addDeposit(){
         try{
-            FileWriter fileWriter = new FileWriter("transactions.csv");
+            //create filewriter and bufferedwriter to add to transactions.csv
+            FileWriter fileWriter = new FileWriter("src/main/resources/transactions.csv", true);
             BufferedWriter bufWriter = new BufferedWriter(fileWriter);
 
-            String desc, vendor;
-            double amount;
-
+            //Ask user for deposit information and store it in appropriate variables
             System.out.println("Adding deposit, please enter information below");
             System.out.print("Enter the deposit description: ");
-            desc = scanner.nextLine();
+            String desc = scanner.nextLine();
             System.out.print("Enter the deposit vendor: ");
-            vendor = scanner.nextLine();
+            String vendor = scanner.nextLine();
             System.out.print("Enter the deposit amount: ");
-            amount = Double.parseDouble(scanner.nextLine());
+            double amount = Double.parseDouble(scanner.nextLine());
 
+            //store timestamp for the deposit the user just inputted
+            LocalDate depositDay = LocalDate.now();
+            LocalTime depositTime = LocalTime.now();
 
+            String deposit = String.format("\n%s|%s|%s|%s|%.2f",depositDay.toString(), depositTime.toString(), desc, vendor, amount);
+            bufWriter.write(deposit);
+            bufWriter.close();
 
         }catch(Exception e){
             System.out.println("There was an oopsie");
