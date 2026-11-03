@@ -17,8 +17,7 @@ public class Ledger {
         String homePageInput;
 
         do{
-            ledgerPrint();
-
+            homeScreenPrint();
             homePageInput = scanner.nextLine().toUpperCase();
 
             switch(homePageInput){
@@ -69,9 +68,11 @@ public class Ledger {
             LocalDate depositDay = LocalDate.now();
             LocalTime depositTime = LocalTime.now();
 
+            //reformat the time to not show millisecond
             DateTimeFormatter fmt = DateTimeFormatter.ofPattern("HH:mm:ss");
             String depositTimeFormatted = depositTime.format(fmt);
 
+            //store all inputted deposit information in a string formatted to match the csv file and write it into that file
             String deposit = String.format("\n%s|%s|%s|%s|%.2f",depositDay.toString(), depositTimeFormatted, desc, vendor, amount);
             bufWriter.write(deposit);
             bufWriter.close();
@@ -90,23 +91,7 @@ public class Ledger {
 
         boolean ledgerExit = false;
         do{
-            System.out.println("""
-                _________________________
-                <----------------------->
-                <---- LEDGER SCREEN ---->
-                <----------------------->
-                """);
-
-            System.out.println("""
-                A - All Entries
-                D - Display deposits
-                P - Display payments
-                R - Run reports
-                H - GO back to home page
-               
-                """);
-
-            System.out.print("Enter an option: ");
+            ledgerPrint();
             String ledgerInput = scanner.nextLine().toUpperCase();
 
 
@@ -120,7 +105,11 @@ public class Ledger {
 
     }
 
-    public static void ledgerPrint(){
+
+
+
+
+    public static void homeScreenPrint(){
         System.out.println("""
                 _________________________
                 (-----------------------)
@@ -135,6 +124,26 @@ public class Ledger {
                     X - Exit app
                     
                     Choose an option:""");
+    }
+
+    public static void ledgerPrint(){
+        System.out.println("""
+                _________________________
+                <----------------------->
+                <---- LEDGER SCREEN ---->
+                <----------------------->
+                """);
+
+        System.out.println("""
+                A - All Entries
+                D - Display deposits
+                P - Display payments
+                R - Run reports
+                H - GO back to home page
+               
+                """);
+
+        System.out.print("Enter an option: ");
     }
 }
 
