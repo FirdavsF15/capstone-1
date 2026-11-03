@@ -64,6 +64,10 @@ public class Ledger {
                     displayAll();
                     break;
                 }
+                case "D" ->{
+                    displayDeposits();
+                    break;
+                }
                 case "H" ->{
                     ledgerExit = true;
                     break;
@@ -94,6 +98,14 @@ public class Ledger {
         }catch(Exception e){
 
         }
+    }
+
+    public static void displayDeposits(){
+
+    }
+
+    public static void displayPayments(){
+
     }
 
     public static void addDeposit(){
