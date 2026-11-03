@@ -14,27 +14,10 @@ public class Ledger {
     public static void main(String[] args) {
 
         boolean ultimateExit = false;
-
-
-
         String homePageInput;
 
         do{
-            System.out.println("""
-                _________________________
-                (-----------------------)
-                (----- HOME SCREEN -----)
-                (-----------------------)
-                """);
-
-            System.out.println("""
-                    D - Add Deposit
-                    P - Make Payment(Debit)
-                    L - Ledger
-                    X - Exit app
-                    
-                    Choose an option:
-                    """);
+            ledgerPrint();
 
             homePageInput = scanner.nextLine().toUpperCase();
 
@@ -45,6 +28,10 @@ public class Ledger {
                 }
                 case "P"->{
                     makePayment();
+                    break;
+                }
+                case "L"->{
+                    ledgerLoop();
                     break;
                 }
                 case "X"->{
@@ -97,6 +84,57 @@ public class Ledger {
 
     public static void makePayment(){
 
+    }
+
+    public static void ledgerLoop(){
+
+        boolean ledgerExit = false;
+        do{
+            System.out.println("""
+                _________________________
+                <----------------------->
+                <---- LEDGER SCREEN ---->
+                <----------------------->
+                """);
+
+            System.out.println("""
+                A - All Entries
+                D - Display deposits
+                P - Display payments
+                R - Run reports
+                H - GO back to home page
+               
+                """);
+
+            System.out.print("Enter an option: ");
+            String ledgerInput = scanner.nextLine().toUpperCase();
+
+
+            if(ledgerInput.equals("H")){
+                ledgerExit = true;
+            }
+        }while(!ledgerExit);
+
+
+
+
+    }
+
+    public static void ledgerPrint(){
+        System.out.println("""
+                _________________________
+                (-----------------------)
+                (----- HOME SCREEN -----)
+                (-----------------------)
+                """);
+
+        System.out.print("""
+                    D - Add Deposit
+                    P - Make Payment(Debit)
+                    L - Ledger
+                    X - Exit app
+                    
+                    Choose an option:""");
     }
 }
 
