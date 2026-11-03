@@ -1,6 +1,8 @@
 package com.pluralsight;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -49,6 +51,51 @@ public class Ledger {
 
     }
 
+    public static void ledgerLoop(){
+
+        boolean ledgerExit = false;
+        do{
+            ledgerPrint();
+            String ledgerInput = scanner.nextLine().toUpperCase();
+
+
+            switch(ledgerInput){
+                case "A" ->{
+                    displayAll();
+                    break;
+                }
+                case "H" ->{
+                    ledgerExit = true;
+                    break;
+                }
+            }
+        }while(!ledgerExit);
+
+
+
+
+    }
+
+    public static void displayAll(){
+        try{
+            FileReader allReader = new FileReader("src/main/resources/transactions.csv");
+            BufferedReader allBufReader = new BufferedReader(allReader);
+
+            allBufReader.readLine();
+            String input;
+            System.out.println("\nALL ENTRIES IN ACCOUNT:");
+            System.out.println("--------------------------");
+            while((input = allBufReader.readLine())!=null){
+                String[] parts = input.split("\\|");
+                System.out.println(input);
+
+            }
+            allBufReader.close();
+        }catch(Exception e){
+
+        }
+    }
+
     public static void addDeposit(){
         try{
             //create filewriter and bufferedwriter to add to transactions.csv
@@ -88,7 +135,7 @@ public class Ledger {
             FileWriter paymentWriter = new FileWriter("src/main/resources/transactions.csv", true);
             BufferedWriter paymentBufWriter = new BufferedWriter(paymentWriter);
 
-            //Ask user for deposit information and store it in appropriate variables
+            //Ask user for payment information and store it in appropriate variables
             System.out.println("Making payment, please enter information below");
             System.out.print("Enter the payment description: ");
             String desc = scanner.nextLine();
@@ -97,7 +144,7 @@ public class Ledger {
             System.out.print("Enter the payment amount: ");
             double amount = Double.parseDouble(scanner.nextLine());
 
-            //store timestamp for the deposit the user just inputted
+            //store timestamp for the payment the user just inputted
             LocalDate depositDay = LocalDate.now();
             LocalTime depositTime = LocalTime.now();
 
@@ -105,7 +152,7 @@ public class Ledger {
             DateTimeFormatter fmt = DateTimeFormatter.ofPattern("HH:mm:ss");
             String depositTimeFormatted = depositTime.format(fmt);
 
-            //store all inputted deposit information in a string formatted to match the csv file and write it into that file
+            //store all inputted payment information in a string formatted to match the csv file and write it into that file
             String deposit = String.format("\n%s|%s|%s|%s|%.2f",depositDay.toString(), depositTimeFormatted, desc, vendor, -amount);
             paymentBufWriter.write(deposit);
             paymentBufWriter.close();
@@ -116,24 +163,6 @@ public class Ledger {
         }catch(Exception e){
             e.printStackTrace();
         }
-
-    }
-
-    public static void ledgerLoop(){
-
-        boolean ledgerExit = false;
-        do{
-            ledgerPrint();
-            String ledgerInput = scanner.nextLine().toUpperCase();
-
-
-            if(ledgerInput.equals("H")){
-                ledgerExit = true;
-            }
-        }while(!ledgerExit);
-
-
-
 
     }
 
