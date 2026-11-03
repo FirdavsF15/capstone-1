@@ -20,7 +20,7 @@ public class Ledger {
 
         do{
             homeScreenPrint();
-            homePageInput = scanner.nextLine().toUpperCase();
+            homePageInput = scanner.nextLine().toUpperCase().trim();
 
             switch(homePageInput){
                 case "D"->{
@@ -56,7 +56,7 @@ public class Ledger {
         boolean ledgerExit = false;
         do{
             ledgerPrint();
-            String ledgerInput = scanner.nextLine().toUpperCase();
+            String ledgerInput = scanner.nextLine().toUpperCase().trim();
 
 
             switch(ledgerInput){
