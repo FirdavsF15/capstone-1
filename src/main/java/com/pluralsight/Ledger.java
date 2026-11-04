@@ -68,6 +68,14 @@ public class Ledger {
                     displayDeposits();
                     break;
                 }
+                case "P"->{
+                    displayPayments();
+                    break;
+                }
+                case "R"->{
+                    reportsLoop();
+                    break;
+                }
                 case "H" ->{
                     ledgerExit = true;
                     break;
@@ -76,6 +84,16 @@ public class Ledger {
         }while(!ledgerExit);
 
 
+
+
+    }
+
+    public static void reportsLoop(){
+        boolean reportsExit = false;
+
+        do{
+
+        }while(!reportsExit);
 
 
     }
@@ -96,12 +114,31 @@ public class Ledger {
             }
             allBufReader.close();
         }catch(Exception e){
-
+            e.printStackTrace();
         }
     }
 
     public static void displayDeposits(){
+        try{
+            FileReader allReader = new FileReader("src/main/resources/transactions.csv");
+            BufferedReader allBufReader = new BufferedReader(allReader);
 
+            allBufReader.readLine();
+            String input;
+            System.out.println("\nALL ENTRIES IN ACCOUNT:");
+            System.out.println("--------------------------");
+            while((input = allBufReader.readLine())!=null){
+                String[] parts = input.split("\\|");
+                if(Double.parseDouble(parts[4])>0){
+                    System.out.println(input);
+                }
+
+
+            }
+            allBufReader.close();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
 
     public static void displayPayments(){
