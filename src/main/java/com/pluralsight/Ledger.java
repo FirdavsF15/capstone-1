@@ -142,7 +142,26 @@ public class Ledger {
     }
 
     public static void displayPayments(){
+        try{
+            FileReader allReader = new FileReader("src/main/resources/transactions.csv");
+            BufferedReader allBufReader = new BufferedReader(allReader);
 
+            allBufReader.readLine();
+            String input;
+            System.out.println("\nALL ENTRIES IN ACCOUNT:");
+            System.out.println("--------------------------");
+            while((input = allBufReader.readLine())!=null){
+                String[] parts = input.split("\\|");
+                if(Double.parseDouble(parts[4])<0){
+                    System.out.println(input);
+                }
+
+
+            }
+            allBufReader.close();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
 
     public static void addDeposit(){
