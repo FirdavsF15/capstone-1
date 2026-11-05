@@ -7,16 +7,21 @@ import java.io.FileWriter;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Ledger {
 
     public static Scanner scanner = new Scanner(System.in);
 
+    public static ArrayList<Transaction> transactions = new ArrayList<Transaction>();
+
     public static void main(String[] args) {
 
         boolean ultimateExit = false;
         String homePageInput;
+
+        loadTransactionList();
 
         do{
             homeScreenPrint();
@@ -40,15 +45,36 @@ public class Ledger {
                     ultimateExit = true;
                 }
             }
-
-
-
-
         }while(!ultimateExit);
 
+    }
 
+    private static void loadTransactionList() {
+        try{
+            FileReader allReader = new FileReader("src/main/resources/transactions.csv");
+            BufferedReader allBufReader = new BufferedReader(allReader);
 
+            allBufReader.readLine();
+            String input;
 
+            while((input = allBufReader.readLine())!=null){
+                String[] parts = input.split("\\|");
+
+                String date = parts[0];
+                String time = parts[1];
+                String description = parts[2];
+                String vendor = parts[3];
+                double amount = Double.parseDouble(parts[4]);
+
+                Transaction initialTransaction = new Transaction(date, time, description, vendor, amount);
+
+                transactions.add(initialTransaction);
+
+            }
+            allBufReader.close();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
 
     public static void ledgerLoop(){
@@ -98,6 +124,7 @@ public class Ledger {
 
             switch(reportsInput){
                 case 1->{
+                    displayMonthToDate();
                     break;
                 }
                 case 0 ->{
@@ -109,6 +136,11 @@ public class Ledger {
         }while(!reportsExit);
 
 
+    }
+
+    private static void displayMonthToDate() {
+        // todo: what's today's year and month?
+        // loop through my transactions and if the month and year is the same as todays, then, uh, print it
     }
 
     public static void displayAll(){
@@ -131,51 +163,6 @@ public class Ledger {
         }
     }
 
-    public static void displayDeposits(){
-        try{
-            FileReader allReader = new FileReader("src/main/resources/transactions.csv");
-            BufferedReader allBufReader = new BufferedReader(allReader);
-
-            allBufReader.readLine();
-            String input;
-            System.out.println("\nALL ENTRIES IN ACCOUNT:");
-            System.out.println("--------------------------");
-            while((input = allBufReader.readLine())!=null){
-                String[] parts = input.split("\\|");
-                if(Double.parseDouble(parts[4])>0){
-                    System.out.println(input);
-                }
-
-
-            }
-            allBufReader.close();
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-    }
-
-    public static void displayPayments(){
-        try{
-            FileReader allReader = new FileReader("src/main/resources/transactions.csv");
-            BufferedReader allBufReader = new BufferedReader(allReader);
-
-            allBufReader.readLine();
-            String input;
-            System.out.println("\nALL ENTRIES IN ACCOUNT:");
-            System.out.println("--------------------------");
-            while((input = allBufReader.readLine())!=null){
-                String[] parts = input.split("\\|");
-                if(Double.parseDouble(parts[4])<0){
-                    System.out.println(input);
-                }
-
-
-            }
-            allBufReader.close();
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-    }
 
     public static void addDeposit(){
         try{
@@ -192,6 +179,8 @@ public class Ledger {
             System.out.print("Enter the deposit amount: ");
             double amount = Double.parseDouble(scanner.nextLine());
 
+
+
             //store timestamp for the deposit the user just inputted
             LocalDate depositDay = LocalDate.now();
             LocalTime depositTime = LocalTime.now();
@@ -199,6 +188,9 @@ public class Ledger {
             //reformat the time to not show millisecond
             DateTimeFormatter fmt = DateTimeFormatter.ofPattern("HH:mm:ss");
             String depositTimeFormatted = depositTime.format(fmt);
+
+            Transaction newTransaction = new Transaction(depositDay.toString(), depositTime.toString(),desc, vendor, amount);
+            transactions.add(newTransaction);
 
             //store all inputted deposit information in a string formatted to match the csv file and write it into that file
             String deposit = String.format("\n%s|%s|%s|%s|%.2f",depositDay.toString(), depositTimeFormatted, desc, vendor, amount);
@@ -232,6 +224,9 @@ public class Ledger {
             //reformat the time to not show millisecond
             DateTimeFormatter fmt = DateTimeFormatter.ofPattern("HH:mm:ss");
             String depositTimeFormatted = depositTime.format(fmt);
+
+            Transaction newTransaction = new Transaction(depositDay.toString(), depositTime.toString(),desc, vendor, amount);
+            transactions.add(newTransaction);
 
             //store all inputted payment information in a string formatted to match the csv file and write it into that file
             String deposit = String.format("\n%s|%s|%s|%s|%.2f",depositDay.toString(), depositTimeFormatted, desc, vendor, -amount);
