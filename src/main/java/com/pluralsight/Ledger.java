@@ -163,6 +163,22 @@ public class Ledger {
         }
     }
 
+    public static void displayDeposits(){
+        for(Transaction t: transactions){
+            if(t.isDeposit()){
+                t.display();
+            }
+        }
+    }
+
+    public static void displayPayments(){
+        for(Transaction t: transactions){
+            if(t.isPayment()){
+                t.display();
+            }
+        }
+    }
+
 
     public static void addDeposit(){
         try{
