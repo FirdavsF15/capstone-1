@@ -92,6 +92,19 @@ public class Ledger {
         boolean reportsExit = false;
 
         do{
+            reportsPrint();
+
+            int reportsInput = Integer.parseInt(scanner.nextLine());
+
+            switch(reportsInput){
+                case 1->{
+                    break;
+                }
+                case 0 ->{
+                    reportsExit = true;
+                    break;
+                }
+            }
 
         }while(!reportsExit);
 
@@ -273,6 +286,24 @@ public class Ledger {
                 """);
 
         System.out.print("Enter an option: ");
+    }
+
+    public static void reportsPrint(){
+        System.out.println("""
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                    ----- REPORTS SCREEN ------
+                    ___________________________
+                    """);
+
+        System.out.print("""
+                    1 - Month to date
+                    2 - Previous Month
+                    3 - Year to Date 
+                    4 - Previous Year
+                    5 - Search By Vendor
+                    0 - Back to Ledger screen
+                    
+                    Enter an option:""");
     }
 }
 
