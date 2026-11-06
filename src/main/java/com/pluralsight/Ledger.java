@@ -127,6 +127,10 @@ public class Ledger {
                     displayMonthToDate();
                     break;
                 }
+                case 2->{
+                    displayPreviousMonth();
+                    break;
+                }
                 case 0 ->{
                     reportsExit = true;
                     break;
@@ -141,25 +145,25 @@ public class Ledger {
     private static void displayMonthToDate() {
         // todo: what's today's year and month?
         // loop through my transactions and if the month and year is the same as todays, then, uh, print it
+
+        LocalDate date = LocalDate.now();
+
+        for(Transaction transaction: transactions){
+            LocalDate transactionDate = LocalDate.parse(transaction.getDate());
+
+            if(date.getYear() == transactionDate.getYear() && date.getMonth() == transactionDate.getMonth() && transactionDate.getDayOfMonth()<=date.getDayOfMonth()){
+                transaction.display();
+            }
+        }
+    }
+
+    private static void displayPreviousMonth(){
+
     }
 
     public static void displayAll(){
-        try{
-            FileReader allReader = new FileReader("src/main/resources/transactions.csv");
-            BufferedReader allBufReader = new BufferedReader(allReader);
-
-            allBufReader.readLine();
-            String input;
-            System.out.println("\nALL ENTRIES IN ACCOUNT:");
-            System.out.println("--------------------------");
-            while((input = allBufReader.readLine())!=null){
-                String[] parts = input.split("\\|");
-                System.out.println(input);
-
-            }
-            allBufReader.close();
-        }catch(Exception e){
-            e.printStackTrace();
+        for(Transaction t: transactions){
+            t.display();
         }
     }
 
@@ -205,7 +209,7 @@ public class Ledger {
             DateTimeFormatter fmt = DateTimeFormatter.ofPattern("HH:mm:ss");
             String depositTimeFormatted = depositTime.format(fmt);
 
-            Transaction newTransaction = new Transaction(depositDay.toString(), depositTime.toString(),desc, vendor, amount);
+            Transaction newTransaction = new Transaction(depositDay.toString(), depositTimeFormatted,desc, vendor, amount);
             transactions.add(newTransaction);
 
             //store all inputted deposit information in a string formatted to match the csv file and write it into that file
@@ -241,7 +245,7 @@ public class Ledger {
             DateTimeFormatter fmt = DateTimeFormatter.ofPattern("HH:mm:ss");
             String depositTimeFormatted = depositTime.format(fmt);
 
-            Transaction newTransaction = new Transaction(depositDay.toString(), depositTime.toString(),desc, vendor, amount);
+            Transaction newTransaction = new Transaction(depositDay.toString(), depositTimeFormatted,desc, vendor, -amount);
             transactions.add(newTransaction);
 
             //store all inputted payment information in a string formatted to match the csv file and write it into that file
