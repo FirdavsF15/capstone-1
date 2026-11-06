@@ -131,6 +131,13 @@ public class Ledger {
                     displayPreviousMonth();
                     break;
                 }
+                case 3 ->{
+                    displayYearToDate();
+                    break;
+                }
+                case 4->{
+                    //displayPreviousYear();
+                }
                 case 0 ->{
                     reportsExit = true;
                     break;
@@ -151,7 +158,9 @@ public class Ledger {
         for(Transaction transaction: transactions){
             LocalDate transactionDate = LocalDate.parse(transaction.getDate());
 
-            if(date.getYear() == transactionDate.getYear() && date.getMonth() == transactionDate.getMonth() && transactionDate.getDayOfMonth()<=date.getDayOfMonth()){
+            if(date.getYear() == transactionDate.getYear()
+                    && date.getMonth() == transactionDate.getMonth()
+                    && transactionDate.getDayOfMonth()<=date.getDayOfMonth()){
                 transaction.display();
             }
         }
@@ -164,6 +173,19 @@ public class Ledger {
             LocalDate transactionDate = LocalDate.parse(transaction.getDate());
 
             if((date.getMonthValue() - 1) == transactionDate.getMonthValue()){
+                transaction.display();
+            }
+        }
+    }
+
+    private static void displayYearToDate(){
+        LocalDate date = LocalDate.now();
+
+        for(Transaction transaction: transactions){
+            LocalDate transactionDate = LocalDate.parse(transaction.getDate());
+
+            if(date.getYear() == transactionDate.getYear()
+            && transactionDate.getDayOfYear()<=date.getDayOfYear()){
                 transaction.display();
             }
         }
