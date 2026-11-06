@@ -158,7 +158,15 @@ public class Ledger {
     }
 
     private static void displayPreviousMonth(){
+        LocalDate date = LocalDate.now();
 
+        for(Transaction transaction: transactions){
+            LocalDate transactionDate = LocalDate.parse(transaction.getDate());
+
+            if((date.getMonthValue() - 1) == transactionDate.getMonthValue()){
+                transaction.display();
+            }
+        }
     }
 
     public static void displayAll(){
