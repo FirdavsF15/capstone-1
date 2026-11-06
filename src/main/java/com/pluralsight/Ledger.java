@@ -44,6 +44,9 @@ public class Ledger {
                     System.out.println("THANKS FOR USING MY APP BYE BYE");
                     ultimateExit = true;
                 }
+                default->{
+                    System.out.println("\nPlease enter a valid option!!!\n");
+                }
             }
         }while(!ultimateExit);
 
@@ -109,9 +112,27 @@ public class Ledger {
             }
         }while(!ledgerExit);
 
+    }
+    public static void displayAll(){
+        for(Transaction t: transactions){
+            t.display();
+        }
+    }
 
+    public static void displayDeposits(){
+        for(Transaction t: transactions){
+            if(t.isDeposit()){
+                t.display();
+            }
+        }
+    }
 
-
+    public static void displayPayments(){
+        for(Transaction t: transactions){
+            if(t.isPayment()){
+                t.display();
+            }
+        }
     }
 
     public static void reportsLoop(){
@@ -173,8 +194,12 @@ public class Ledger {
 
         for(Transaction transaction: transactions){
             LocalDate transactionDate = LocalDate.parse(transaction.getDate());
+            int previousMonth = date.getYear() - 1;
+            if(date.getYear()==1){
+                previousMonth = 12;
+            }
 
-            if((date.getMonthValue() - 1) == transactionDate.getMonthValue()){
+            if(previousMonth == transactionDate.getMonthValue()){
                 transaction.display();
             }
         }
@@ -198,12 +223,8 @@ public class Ledger {
 
         for(Transaction transaction: transactions){
             LocalDate transactionDate = LocalDate.parse(transaction.getDate());
-            int previousYear = date.getYear() - 1;
-            if(date.getYear()==1){
-                previousYear = 12;
-            }
 
-            if(previousYear == transactionDate.getYear()){
+            if(date.getYear()-1 == transactionDate.getYear()){
                 transaction.display();
             }
         }
@@ -214,33 +235,32 @@ public class Ledger {
         String vendor = scanner.nextLine();
 
         for(Transaction transaction: transactions){
-            if(transaction.getVendor().equals(vendor)){
+            if(transaction.getVendor().equalsIgnoreCase(vendor)){
                 transaction.display();
             }
         }
     }
 
-    public static void displayAll(){
-        for(Transaction t: transactions){
-            t.display();
-        }
+    private static void customSearch(){
+        System.out.println("You are now doing special custom searching");
+        System.out.println("Enter specific values you want to filter by or leave them blank");
+
+        System.out.print("Enter start date in YY-MM-dd: ");
+        LocalDate startDate = LocalDate.parse(scanner.nextLine());
+        System.out.println("Enter end date in YY-MM-dd: ");
+        LocalDate endDate = LocalDate.parse(scanner.nextLine());
+        System.out.println("Enter description name to filter: ");
+        String desc = scanner.nextLine();
+        System.out.println("Enter vendor name to filter: ");
+        String vendor = scanner.nextLine();
+        System.out.println("Enter transaction amount to filter by: ");
+        double amount = Double.parseDouble(scanner.nextLine());
+
+
+
     }
 
-    public static void displayDeposits(){
-        for(Transaction t: transactions){
-            if(t.isDeposit()){
-                t.display();
-            }
-        }
-    }
 
-    public static void displayPayments(){
-        for(Transaction t: transactions){
-            if(t.isPayment()){
-                t.display();
-            }
-        }
-    }
 
 
     public static void addDeposit(){
@@ -327,10 +347,11 @@ public class Ledger {
 
     public static void homeScreenPrint(){
         System.out.println("""
-                _________________________
-                (-----------------------)
-                (----- HOME SCREEN -----)
-                (-----------------------)
+                ╦  ╦ ╔══╗ ╔═╦═╗ ╔══╗
+                ║  ║ ║  ║ ║ ║ ║ ║  \s
+                ╠══╣ ║  ║ ║ ║ ║ ╠═╣\s
+                ║  ║ ║  ║ ║ ║ ║ ║  \s
+                ╩  ╩ ╚══╝ ╩ ╩ ╩ ╚══╝
                 """);
 
         System.out.print("""
