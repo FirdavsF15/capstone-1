@@ -136,7 +136,12 @@ public class Ledger {
                     break;
                 }
                 case 4->{
-                    //displayPreviousYear();
+                    displayPreviousYear();
+                    break;
+                }
+                case 5->{
+                    searchByVendor();
+                    break;
                 }
                 case 0 ->{
                     reportsExit = true;
@@ -150,9 +155,6 @@ public class Ledger {
     }
 
     private static void displayMonthToDate() {
-        // todo: what's today's year and month?
-        // loop through my transactions and if the month and year is the same as todays, then, uh, print it
-
         LocalDate date = LocalDate.now();
 
         for(Transaction transaction: transactions){
@@ -186,6 +188,33 @@ public class Ledger {
 
             if(date.getYear() == transactionDate.getYear()
             && transactionDate.getDayOfYear()<=date.getDayOfYear()){
+                transaction.display();
+            }
+        }
+    }
+
+    private static void displayPreviousYear(){
+        LocalDate date = LocalDate.now();
+
+        for(Transaction transaction: transactions){
+            LocalDate transactionDate = LocalDate.parse(transaction.getDate());
+            int previousYear = date.getYear() - 1;
+            if(date.getYear()==1){
+                previousYear = 12;
+            }
+
+            if(previousYear == transactionDate.getYear()){
+                transaction.display();
+            }
+        }
+    }
+
+    private static void searchByVendor(){
+        System.out.print("Enter the vendor name: ");
+        String vendor = scanner.nextLine();
+
+        for(Transaction transaction: transactions){
+            if(transaction.getVendor().equals(vendor)){
                 transaction.display();
             }
         }
