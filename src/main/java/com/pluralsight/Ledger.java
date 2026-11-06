@@ -194,12 +194,14 @@ public class Ledger {
 
         for(Transaction transaction: transactions){
             LocalDate transactionDate = LocalDate.parse(transaction.getDate());
-            int previousMonth = date.getYear() - 1;
-            if(date.getYear()==1){
+            int previousMonth = date.getMonthValue() - 1;
+            int year = date.getYear();
+            if(date.getMonthValue()==1){
                 previousMonth = 12;
+                year = year - 1;
             }
 
-            if(previousMonth == transactionDate.getMonthValue()){
+            if(previousMonth == transactionDate.getMonthValue() && year==transactionDate.getYear()){
                 transaction.display();
             }
         }
