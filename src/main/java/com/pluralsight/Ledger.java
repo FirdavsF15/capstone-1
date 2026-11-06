@@ -12,8 +12,8 @@ import java.util.Scanner;
 
 public class Ledger {
 
+    //create static variables scanner and list of transactions to use throughout all methods
     public static Scanner scanner = new Scanner(System.in);
-
     public static ArrayList<Transaction> transactions = new ArrayList<Transaction>();
 
     public static void main(String[] args) {
@@ -21,9 +21,12 @@ public class Ledger {
         boolean ultimateExit = false;
         String homePageInput;
 
+        //initial method call to load transactions.csv to the transactions for demo
         loadTransactionList();
 
+        //use of do while loops to get user input, we want at least one input, display all options first
         do{
+            //helper function to print options and instructions
             homeScreenPrint();
             homePageInput = scanner.nextLine().toUpperCase().trim();
 
@@ -48,7 +51,7 @@ public class Ledger {
                     System.out.println("\nPlease enter a valid option!!!\n");
                 }
             }
-        }while(!ultimateExit);
+        }while(!ultimateExit); //if the user entered "X" this will be false and we end the do while loop
 
     }
 
@@ -69,8 +72,8 @@ public class Ledger {
                 String vendor = parts[3];
                 double amount = Double.parseDouble(parts[4]);
 
+                //create transaction objects for each line from the csv and add that to the arraylist of transactions
                 Transaction initialTransaction = new Transaction(date, time, description, vendor, amount);
-
                 transactions.add(initialTransaction);
 
             }
@@ -84,6 +87,7 @@ public class Ledger {
 
         boolean ledgerExit = false;
         do{
+            //inner loop if the user wants to use the ledger
             ledgerPrint();
             String ledgerInput = scanner.nextLine().toUpperCase().trim();
 
@@ -120,6 +124,7 @@ public class Ledger {
     }
 
     public static void displayDeposits(){
+        //use of helper method in Transaction.java that checks if the Transaction is deposit so we only print deposits
         for(Transaction t: transactions){
             if(t.isDeposit()){
                 t.display();
@@ -128,6 +133,7 @@ public class Ledger {
     }
 
     public static void displayPayments(){
+        //similar helper method for payments
         for(Transaction t: transactions){
             if(t.isPayment()){
                 t.display();
@@ -138,6 +144,7 @@ public class Ledger {
     public static void reportsLoop(){
         boolean reportsExit = false;
 
+        //another inner do while loop for reports information
         do{
             reportsPrint();
 
@@ -176,11 +183,15 @@ public class Ledger {
     }
 
     private static void displayMonthToDate() {
+        //store current date
         LocalDate date = LocalDate.now();
 
+        //traverse all transactions
         for(Transaction transaction: transactions){
+            //store each transactions date into LocalDate variable
             LocalDate transactionDate = LocalDate.parse(transaction.getDate());
 
+            //check if the year and month matches and that we have not gone past the current day of the month the current date is on
             if(date.getYear() == transactionDate.getYear()
                     && date.getMonth() == transactionDate.getMonth()
                     && transactionDate.getDayOfMonth()<=date.getDayOfMonth()){
@@ -194,8 +205,11 @@ public class Ledger {
 
         for(Transaction transaction: transactions){
             LocalDate transactionDate = LocalDate.parse(transaction.getDate());
+            //store previous month
             int previousMonth = date.getMonthValue() - 1;
             int year = date.getYear();
+
+            //if we are currently in january, change month to december and go back a year
             if(date.getMonthValue()==1){
                 previousMonth = 12;
                 year = year - 1;
@@ -213,6 +227,7 @@ public class Ledger {
         for(Transaction transaction: transactions){
             LocalDate transactionDate = LocalDate.parse(transaction.getDate());
 
+            //same as monthToDate but compare DayOfYear instead of DayOfMonth
             if(date.getYear() == transactionDate.getYear()
             && transactionDate.getDayOfYear()<=date.getDayOfYear()){
                 transaction.display();
