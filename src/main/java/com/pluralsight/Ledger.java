@@ -334,18 +334,18 @@ public class Ledger {
             double amount = Double.parseDouble(scanner.nextLine());
 
             //store timestamp for the payment the user just inputted
-            LocalDate depositDay = LocalDate.now();
-            LocalTime depositTime = LocalTime.now();
+            LocalDate paymentDay = LocalDate.now();
+            LocalTime paymentTime = LocalTime.now();
 
             //reformat the time to not show millisecond
             DateTimeFormatter fmt = DateTimeFormatter.ofPattern("HH:mm:ss");
-            String depositTimeFormatted = depositTime.format(fmt);
+            String paymentTimeFormatted = paymentTime.format(fmt);
 
-            Transaction newTransaction = new Transaction(depositDay.toString(), depositTimeFormatted,desc, vendor, -amount);
+            Transaction newTransaction = new Transaction(paymentDay.toString(), paymentTimeFormatted,desc, vendor, -amount);
             transactions.add(newTransaction);
 
             //store all inputted payment information in a string formatted to match the csv file and write it into that file
-            String deposit = String.format("\n%s|%s|%s|%s|%.2f",depositDay.toString(), depositTimeFormatted, desc, vendor, -amount);
+            String deposit = String.format("\n%s|%s|%s|%s|%.2f",paymentDay.toString(), paymentTimeFormatted, desc, vendor, -amount);
             paymentBufWriter.write(deposit);
             paymentBufWriter.close();
 
